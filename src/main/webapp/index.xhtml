@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+
+</h:head>
+<h:body>
+
+    <h:form style="margin: 50px" >
+       <span class="ui-float-label">
+       <p:inputText id="float-input-1" value="#{calculateBean.number1}" />
+       <p:outputLabel for="@previous" value="Numara 1" />
+   </span>
+        <span class="ui-float-label" style="margin-top: 50px">
+       <p:inputText id="float-input-2" value="#{calculateBean.number2}" />
+       <p:outputLabel for="@previous" value="Numara 2" />
+   </span>
+        <p:commandButton value="Toplama" id="sum1" update="resultId"
+                         action="#{calculateBean.sum()}"
+                         style="margin-right:20px;margin-top: 50px"
+                         styleClass="ui-priority-primary" />
+        <p:commandButton value="Çıkartma" id="dif1" update="resultId"
+                         action="#{calculateBean.diff()}"
+                         style="margin-right:20px;margin-top: 50px"
+                         styleClass="ui-priority-primary" />
+        <p:commandButton value="Çarpma" id="mut1" update="resultId"
+                         action="#{calculateBean.mult()}"
+                         style="margin-right:20px;margin-top: 50px"
+                         styleClass="ui-priority-primary" />
+        <p:commandButton value="Bölme" id="div1" update="resultId"
+                         action="#{calculateBean.divide()}"
+                         style="margin-right:20px;margin-top: 50px"
+                         styleClass="ui-priority-primary" />
+        <p:outputLabel  value ="Sonuç : "
+                       style="margin-right:20px;margin-top: 50px" />
+        <p:outputLabel id ="resultId" value ="#{calculateBean.result}"
+                       style="margin-right:20px;margin-top: 50px" />
+    </h:form>
+
+</h:body>
+</html>

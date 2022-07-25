@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+<title>Product CRUD</title>
+</h:head>
+<h:body>
+    <h:form id="formId" style="margin-top: 100px; margin-left: 100px; margin-left: 200px" >
+        <p:growl id="growlId" showDetail="true"/>
+        <span class="ui-float-label">
+                <p:inputText disabled="#{productBean.product.modelId!=0}"
+                             id="float-input-modelId"
+                             value="#{productBean.product.modelId}" />
+                <p:outputLabel for="@previous" value="Id" />
+        </span>
+        <span class="ui-float-label" style="margin-top: 50px">
+       <p:inputText id="float-input-serialNum" value="#{productBean.product.serialNum}" />
+       <p:outputLabel for="@previous" value="Ürün Seri Numarası" />
+   </span>
+        <span class="ui-float-label" style="margin-top: 50px">
+       <p:inputText id="float-input-proName" value="#{productBean.product.productName}" />
+       <p:outputLabel for="@previous" value="Ürün Adı" />
+   </span>
+        <span class="ui-float-label" style="margin-top: 50px">
+       <p:inputText id="float-input-proPrice" value="#{productBean.product.price}" />
+       <p:outputLabel for="@previous" value="Fiyat" />
+   </span>
+        <p:commandButton rendered="#{productBean.product.modelId==0}"
+                         value="Ekle" id="addButton" update="formId datatableId growlId"
+                         action="#{productBean.addProduct()}"
+                         style="margin-right:20px;margin-top: 50px"
+                         styleClass="ui-priority-primary" />
+        <p:commandButton rendered="#{productBean.product.modelId!=0}"
+                         value="Güncelle" id="editButton" update="formId datatableId growlId"
+                         action="#{productBean.editProduct()}"
+                         style="margin-right:20px;margin-top: 50px"
+                         styleClass="ui-priority-primary" />
+        <p:commandButton
+                value="Temizle" id="clearButton"
+                update="formId "
+                action="#{productBean.clearProduct()}"
+                style="margin-right:20px;margin-top:50px"
+                styleClass="ui-priority-primary" />
+    </h:form>
+        <p:dataTable id="datatableId" var="prdct"
+                     value="#{productBean.productList}" reflow="true" rows="5"
+                     paginator="true"
+                     style="margin-top:50px">
+        <p:column headerText="Model Id">
+            <h:outputText value="#{prdct.modelId}" />
+        </p:column>
+        <p:column headerText="Seri Numarası">
+            <h:outputText value="#{prdct.serialNum}" />
+        </p:column>
+
+        <p:column headerText="Ürün Adı">
+            <h:outputText value="#{prdct.productName}" />
+        </p:column>
+
+        <p:column headerText="Fiyat">
+            <h:outputText value="#{prdct.price}" />
+        </p:column>
+            <p:column headerText="İşlemler">
+                <p:commandButton value="Güncelle" id="selectForEdit" update="datatableId formId"
+                                 action="#{productBean.selectForEdit(prdct)}"
+                                 styleClass="ui-priority-primary" />
+                <p:commandButton value="Sil" id="deleteProduct"
+                                 update="datatableId formId"
+                                 action="#{productBean.deleteproduct(prdct)}" />
+            </p:column>
+        </p:dataTable>
+
+
+</h:body>
+</html>
