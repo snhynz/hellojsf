@@ -6,12 +6,15 @@ package com.example.hellojsf;
 
 import com.example.hellojsf.model.Product;
 import com.example.hellojsf.model.User;
+import com.example.hellojsf.utils.MessageUtils;
+import org.primefaces.PrimeFaces;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 @SessionScoped
@@ -22,6 +25,8 @@ public class ProductBean {
 
     private List<Product> productList;
 
+    private Product selectedProduct;
+
     @PostConstruct
     public void init(){
        product = new Product();
@@ -30,9 +35,8 @@ public class ProductBean {
 
     public void addProduct(){
         productList.add(product);
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Başarılı",  "Data Eklendi") );
-        product= new Product();
+        product = new Product();
+        MessageUtils.message(FacesMessage.SEVERITY_INFO, "Başarılı", "Kayıt Eklendi");
     }
     public void clearProduct(){
         product = new Product();
@@ -43,19 +47,38 @@ public class ProductBean {
                 .findFirst().get();
         productList.remove(editProduct);
         productList.add(product);*/
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Başarılı",  "Data Güncellendi") );
         product = new Product();
+     MessageUtils.message(FacesMessage.SEVERITY_WARN, "Başarılı", "Kayıt Güncellendi");
+
     }
 
     public void selectForEdit(Product editProduct){
         product=editProduct;
     }
 
-    public void deleteproduct(Product deleteproduct){
-        FacesContext context = FacesContext.getCurrentInstance();
-        context.addMessage(null, new FacesMessage("Başarılı",  "Data Silindi") );
-        productList.remove(deleteproduct);
+    public void deleteProduct(){
+        productList.remove(this.selectedProduct);
+        PrimeFaces current = PrimeFaces.current();
+        current.executeScript("PF('DeleteModal').hide();");
+        current.ajax().update("datatableId");
+        MessageUtils.message(FacesMessage.SEVERITY_ERROR, "Başarılı", "Kayıt Silindi");
+
+    }
+
+    public void setProductForDelete (Product p) {
+        this.selectedProduct=p ;
+        PrimeFaces current = PrimeFaces.current();
+        current.executeScript("PF('DeleteModal').show();");
+    }
+
+   public String productPage(){
+    Product p = new Product();
+    p.setModelId(5);
+    p.setProductName("çay");
+    p.setPrice(100);
+    p.setSerialNum(789);
+    productList.add(p);
+    return "product.xhtml?faces-redirect=true";
     }
 
     public Product getProduct() {
@@ -66,6 +89,7 @@ public class ProductBean {
         this.product = product;
     }
 
+
     public List<Product> getProductList() {
         return productList;
     }
@@ -73,4 +97,13 @@ public class ProductBean {
     public void setProductList(List<Product> productList) {
         this.productList = productList;
     }
+    public Product getSelectedProduct() {
+        return selectedProduct;
+    }
+
+    public void setSelectedProduct(Product selectedProduct) {
+        this.selectedProduct = selectedProduct;
+    }
+
+
 }

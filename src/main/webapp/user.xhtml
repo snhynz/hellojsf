@@ -6,7 +6,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-
+<title>Kullanıcı</title>
 </h:head>
 <h:body>
     <h:form id="formId" style="margin: 200px" >
@@ -73,6 +73,15 @@
         </p:dataTable>
 
     </h:form>
-
+    <h:form>
+        <p:dock position="bottom">
+            <p:menuitem value="Anasayfa"
+                        icon="/icon/homepage.png"
+                        url="index.xhtml"/>
+            <p:menuitem value="Ürün"
+                        icon="/icon/product.png"
+                        action="#{productBean.productPage()}"/>
+        </p:dock>
+    </h:form>
 </h:body>
 </html>

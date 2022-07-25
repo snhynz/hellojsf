@@ -35,7 +35,7 @@
                          style="margin-right:20px;margin-top: 50px"
                          styleClass="ui-priority-primary" />
         <p:commandButton rendered="#{productBean.product.modelId!=0}"
-                         value="Güncelle" id="editButton" update="formId datatableId growlId"
+                         value="Güncelle" id="editButton" update="formId datatableId"
                          action="#{productBean.editProduct()}"
                          style="margin-right:20px;margin-top: 50px"
                          styleClass="ui-priority-primary" />
@@ -45,11 +45,12 @@
                 action="#{productBean.clearProduct()}"
                 style="margin-right:20px;margin-top:50px"
                 styleClass="ui-priority-primary" />
+
     </h:form>
-        <p:dataTable id="datatableId" var="prdct"
-                     value="#{productBean.productList}" reflow="true" rows="5"
-                     paginator="true"
-                     style="margin-top:50px">
+    <p:dataTable id="datatableId" var="prdct"
+                 value="#{productBean.productList}" reflow="true" rows="5"
+                 paginator="true"
+                 style="margin-top:50px">
         <p:column headerText="Model Id">
             <h:outputText value="#{prdct.modelId}" />
         </p:column>
@@ -64,16 +65,33 @@
         <p:column headerText="Fiyat">
             <h:outputText value="#{prdct.price}" />
         </p:column>
-            <p:column headerText="İşlemler">
-                <p:commandButton value="Güncelle" id="selectForEdit" update="datatableId formId"
-                                 action="#{productBean.selectForEdit(prdct)}"
-                                 styleClass="ui-priority-primary" />
-                <p:commandButton value="Sil" id="deleteProduct"
-                                 update="datatableId formId"
-                                 action="#{productBean.deleteproduct(prdct)}" />
-            </p:column>
-        </p:dataTable>
+        <p:column headerText="İşlemler">
+            <p:commandButton value="Güncelle" id="selectForEdit" update="formId datatableId"
+                             action="#{productBean.selectForEdit(prdct)}"
+                             styleClass="ui-priority-primary" />
+            <p:commandButton value="Sil" id="deleteProduct"
 
-
-</h:body>
+            action="#{productBean.setProductForDelete(prdct)}"
+                             update="datatableId"/>
+        </p:column>
+    </p:dataTable>
+    <p:dialog header="Silme İşlemi" widgetVar="DeleteModal" modal="true" height="100">
+        <h:outputText value="Silmek istediğinize emin misiniz?" />
+        <br></br><br></br><p:commandButton value="Evet" style="margin-left: 20px"
+                                           action="#{productBean.deleteProduct()}"
+                                           update="datatableId"
+                                           onclick="PF('DeleteModal').hide();"/>
+        <p:commandButton value="Hayır" style="margin-left: 50px" onclick="PF('DeleteModal').hide();"/>
+    </p:dialog>
+    <h:form>
+    <p:dock position="bottom">
+        <p:menuitem value="Anasayfa"
+                    icon="/icon/homepage.png"
+                    url="index.xhtml"/>
+        <p:menuitem value="Kullanıcı"
+                    icon="/icon/User_icon.png"
+                    url="user.xhtml"/>
+    </p:dock>
+    </h:form>
+       </h:body>
 </html>
