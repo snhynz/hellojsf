@@ -9,7 +9,7 @@
 <title>Product CRUD</title>
 </h:head>
 <h:body>
-    <h:form id="formId" style="margin-top: 100px; margin-left: 100px; margin-left: 200px" >
+    <h:form id="formId" style="margin-top: 30px; margin-left: 100px; margin-left: 200px" >
         <p:growl id="growlId" showDetail="true"/>
         <span class="ui-float-label">
                 <p:inputText disabled="#{productBean.product.modelId!=0}"
@@ -30,7 +30,7 @@
        <p:outputLabel for="@previous" value="Fiyat" />
    </span>
         <p:commandButton rendered="#{productBean.product.modelId==0}"
-                         value="Ekle" id="addButton" update="formId datatableId growlId"
+                         value="Ekle" id="addButton" update="formId datatableId growlId productDropdownId"
                          action="#{productBean.addProduct()}"
                          style="margin-right:20px;margin-top: 50px"
                          styleClass="ui-priority-primary" />
@@ -70,16 +70,33 @@
                              action="#{productBean.selectForEdit(prdct)}"
                              styleClass="ui-priority-primary" />
             <p:commandButton value="Sil" id="deleteProduct"
-
-            action="#{productBean.setProductForDelete(prdct)}"
+                             action="#{productBean.setProductForDelete(prdct)}"
                              update="datatableId"/>
         </p:column>
     </p:dataTable>
+    <p:selectOneMenu id="productDropdownId"
+                     value="#{productBean.selectedDropdownProduct}">
+        <f:selectItems value="#{productBean.productList}"
+                       var="prdct"
+                       itemValue="#{prdct}"
+                       itemLabel="#{prdct.productName} - #{prdct.price}">
+        </f:selectItems>
+    </p:selectOneMenu>
+
+    <p:selectOneMenu id="userDropdownId"
+                     value="#{productBean.selectedDropdownProduct}">
+        <f:selectItems value="#{productBean.productList}"
+                       var="prdct"
+                       itemValue="#{prdct}"
+                       itemLabel="#{prdct.productName} - #{prdct.price}">
+        </f:selectItems>
+    </p:selectOneMenu>
+
     <p:dialog header="Silme İşlemi" widgetVar="DeleteModal" modal="true" height="100">
         <h:outputText value="Silmek istediğinize emin misiniz?" />
         <br></br><br></br><p:commandButton value="Evet" style="margin-left: 20px"
                                            action="#{productBean.deleteProduct()}"
-                                           update="datatableId"
+                                           update="datatableId productDropdownId"
                                            onclick="PF('DeleteModal').hide();"/>
         <p:commandButton value="Hayır" style="margin-left: 50px" onclick="PF('DeleteModal').hide();"/>
     </p:dialog>

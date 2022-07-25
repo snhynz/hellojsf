@@ -12,6 +12,7 @@ import org.primefaces.PrimeFaces;
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import java.security.MessageDigest;
@@ -26,6 +27,15 @@ public class ProductBean {
     private List<Product> productList;
 
     private Product selectedProduct;
+
+    private Product selectedDropdownProduct;
+
+    @ManagedProperty(value = "#{userBean}")
+    private UserBean userBean;
+
+    private List<User> userList;
+
+    private User selectedUser;
 
     @PostConstruct
     public void init(){
@@ -78,6 +88,9 @@ public class ProductBean {
     p.setPrice(100);
     p.setSerialNum(789);
     productList.add(p);
+
+    this.userList=userBean.getUserList();
+
     return "product.xhtml?faces-redirect=true";
     }
 
@@ -105,5 +118,35 @@ public class ProductBean {
         this.selectedProduct = selectedProduct;
     }
 
+    public Product getSelectedDropdownProduct() {
+        return selectedDropdownProduct;
+    }
 
+    public void setSelectedDropdownProduct(Product selectedDropdownProduct) {
+        this.selectedDropdownProduct = selectedDropdownProduct;
+    }
+
+    public UserBean getUserBean() {
+        return userBean;
+    }
+
+    public void setUserBean(UserBean userBean) {
+        this.userBean = userBean;
+    }
+
+    public List<User> getUserList() {
+        return userList;
+    }
+
+    public void setUserList(List<User> userList) {
+        this.userList = userList;
+    }
+
+    public User getSelectedUser() {
+        return selectedUser;
+    }
+
+    public void setSelectedUser(User selectedUser) {
+        this.selectedUser = selectedUser;
+    }
 }
